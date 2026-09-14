@@ -34,7 +34,13 @@ class AssuranceGate(gl.Contract):
     execution_count: u256
 
     def __init__(self, assuregraph_address: Address):
-        self.assuregraph_address = assuregraph_address
+        # CLI and gltest constructor arguments arrive as hex strings, while
+        # GenVM storage requires its typed Address value.
+        self.assuregraph_address = (
+            Address(assuregraph_address)
+            if isinstance(assuregraph_address, str)
+            else assuregraph_address
+        )
         self.execution_count = u256(0)
 
     @gl.public.write

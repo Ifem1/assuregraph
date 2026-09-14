@@ -3,6 +3,7 @@
 import json
 
 CONTRACT = "contracts/assuregraph.py"
+GATE = "contracts/assurance_gate.py"
 CLASSIFIER = r"ASSUREGRAPH / SAFETY-CASE LEAF VERIFICATION"
 
 BASE = "2026-09-14T08:00:00+00:00"
@@ -318,3 +319,10 @@ def test_assessment_history_is_append_only(direct_vm, direct_deploy):
     assert contract.get_assessment(first)["verdict_name"] == "PASS"
     assert contract.get_assessment(second)["verdict_name"] == "FAIL"
     assert contract.get_claim(auth)["current_assessment_id"] == second
+
+
+def test_assurance_gate_normalizes_constructor_address(direct_vm, direct_deploy):
+    address = "0x" + "12" * 20
+    gate = direct_deploy(GATE, address)
+
+    assert gate._instance.assuregraph_address.as_bytes.hex() == "12" * 20
