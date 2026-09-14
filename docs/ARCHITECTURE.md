@@ -86,6 +86,11 @@ historical verdict: PASS
 current support:     STALE
 ```
 
+The same append-only rule applies to `FAIL`: a failed assessment remains in
+history and remains the leaf's current `NOT_ASSURED` support until a later
+consensus assessment replaces the current-assessment pointer. No background
+operation silently clears a failure.
+
 That distinction prevents history rewriting while still making assurance time-sensitive.
 
 ## Snapshots

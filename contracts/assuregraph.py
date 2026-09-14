@@ -532,7 +532,16 @@ def consensus_assessment(
         if verdict in (VERDICT_PASS, VERDICT_FAIL):
             evidence = str(candidate.get("evidence", ""))
             source = str(independent.get("source", ""))
-            if evidence == "" or evidence not in source:
+            independent_evidence = str(independent.get("evidence", ""))
+            # Containment alone permits a leader to quote an irrelevant
+            # sentence from an otherwise valid page. Require the validator's
+            # own grounded excerpt to be exactly equivalent as well.
+            if (
+                evidence == ""
+                or evidence not in source
+                or independent_evidence == ""
+                or evidence != independent_evidence
+            ):
                 return False
 
         return True

@@ -37,6 +37,10 @@ It independently:
 
 If the source changed between observations in a way that prevents convergence, consensus can fail rather than writing a false stable answer.
 
+The validator also requires the leader's decisive excerpt to exactly match the
+validator's own grounded excerpt. A leader cannot quote an irrelevant sentence
+that merely happens to be present on a page whose independent assessment passes.
+
 ## What consensus does not decide
 
 Consensus does not decide:

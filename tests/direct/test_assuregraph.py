@@ -182,6 +182,18 @@ def test_validator_rejects_forged_pass(direct_vm, direct_deploy):
     assert direct_vm.run_validator(leader_result=forged) is False
 
 
+def test_validator_rejects_irrelevant_verbatim_leader_excerpt(direct_vm, direct_deploy):
+    contract, _, auth, *_ = build_case(direct_vm, direct_deploy)
+    mock_verdict(direct_vm, r".*example\.com/auth/report.*", AUTH_TEXT, "PASS", AUTH_TEXT)
+    contract.assess_leaf(auth, AUTH_URL)
+    forged = {
+        "verdict": 1,
+        "reason": "same verdict, unrelated quote",
+        "evidence": "Security report:",
+    }
+    assert direct_vm.run_validator(leader_result=forged) is False
+
+
 def test_ambiguous_leaf_keeps_case_incomplete(direct_vm, direct_deploy):
     contract, case_id, auth, *_ = build_case(direct_vm, direct_deploy)
     mock_verdict(direct_vm, r".*example\.com/auth/report.*", "A report exists but does not resolve the control.", "AMBIGUOUS", "")
@@ -318,6 +330,20 @@ def test_assessment_history_is_append_only(direct_vm, direct_deploy):
     assert second > first
     assert contract.get_assessment(first)["verdict_name"] == "PASS"
     assert contract.get_assessment(second)["verdict_name"] == "FAIL"
+    assert contract.get_claim(auth)["current_assessment_id"] == second
+
+
+def test_fail_persists_as_current_support_until_reassessment(direct_vm, direct_deploy):
+    contract, case_id, auth, *_ = build_case(direct_vm, direct_deploy)
+    mock_verdict(direct_vm, r".*example\.com/auth/report.*", FAIL_TEXT, "FAIL", FAIL_TEXT)
+    first = contract.assess_leaf(auth, AUTH_URL)
+    assert contract.get_claim_status(auth)["status_name"] == "NOT_ASSURED"
+    assert contract.get_case_status(case_id)["status_name"] == "NOT_ASSURED"
+
+    mock_verdict(direct_vm, r".*example\.com/auth/report.*", AUTH_TEXT, "PASS", AUTH_TEXT)
+    second = contract.assess_leaf(auth, AUTH_URL)
+    assert second > first
+    assert contract.get_assessment(first)["verdict_name"] == "FAIL"
     assert contract.get_claim(auth)["current_assessment_id"] == second
 
 
