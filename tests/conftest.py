@@ -1,6 +1,17 @@
 import os
 import pytest
 
+# genlayer-test 0.29.2 otherwise chooses the newest GenVM release. That can be
+# a release candidate which no longer ships the stable runner hash pinned by
+# these contracts. Keep Direct Mode deterministic on the compatible stable
+# artifact; this does not alter the contract SDK or any network target.
+try:
+    import gltest.direct.sdk_loader as _sdk_loader
+
+    _sdk_loader.get_latest_version = lambda: "v0.2.16"
+except ImportError:
+    pass
+
 _PENDING_STDIN_FILES: list[str] = []
 
 @pytest.fixture(autouse=True)
