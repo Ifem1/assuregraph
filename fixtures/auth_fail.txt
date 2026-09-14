@@ -1,0 +1,3 @@
+ASSUREGRAPH DEMO EVIDENCE — FAILED AUTHENTICATION CONTROL
+
+The production authentication readiness test accepted an invalid session without an approved credential. The authentication control therefore failed the readiness test for this release candidate.

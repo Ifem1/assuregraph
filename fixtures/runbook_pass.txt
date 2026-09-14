@@ -1,0 +1,3 @@
+ASSUREGRAPH DEMO EVIDENCE — INCIDENT RUNBOOK
+
+The incident-response runbook was exercised successfully during the latest operational-readiness drill. The drill recorded escalation, containment, recovery, and closure steps.

@@ -1,0 +1,2 @@
+# Stable Studionet / Direct Mode tooling. genlayer-test installs its compatible genlayer-py.
+genlayer-test @ git+https://github.com/genlayerlabs/genlayer-testing-suite@v0.29.2

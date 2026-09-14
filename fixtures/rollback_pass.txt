@@ -1,0 +1,3 @@
+ASSUREGRAPH DEMO EVIDENCE — ROLLBACK
+
+The production rollback drill completed successfully using the documented rollback procedure. The release was restored to the previous known-good version and service health checks passed after rollback.

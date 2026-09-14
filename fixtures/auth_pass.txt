@@ -1,0 +1,3 @@
+ASSUREGRAPH DEMO EVIDENCE — AUTHENTICATION
+
+The production authentication readiness test rejected an invalid session and required an approved credential before access was granted. The readiness test completed successfully for the release candidate under review.
