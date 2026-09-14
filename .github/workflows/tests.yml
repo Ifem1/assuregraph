@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Static preflight
-        run: python scripts/preflight.py
+        run: python scripts/preflight.py --final
       - name: Compile Python sources
         run: python -m py_compile contracts/*.py tests/direct/*.py tests/integration/*.py scripts/*.py
 
